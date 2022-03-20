@@ -17,6 +17,18 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
-    return view('dashboard');
-})->name('dashboard');
+Route::group(['middleware' => ['auth:sanctum', 'verified'], 'prefix' => 'dashboard'], function () {
+    Route::get('/', function () {
+        return view('dashboard');
+    })->name('dashboard');
+
+    // CRUDs
+
+    Route::group(['prefix' => 'category'],function () {
+        Route::get('/', App\Http\Livewire\Dashboard\Category\Index::class)->name("d-category-index");        // listado
+        Route::get('/create', App\Http\Livewire\Dashboard\Category\Save::class)->name("d-category-create");  // crear
+        Route::get('/edit/{id}', App\Http\Livewire\Dashboard\Category\Save::class)->name("d-category-edit");// edit
+    });
+
+
+});
