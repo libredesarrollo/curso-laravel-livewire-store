@@ -19,6 +19,7 @@ class Index extends Component
 
     public function delete(Category $category)
     {
+        $this->emit("deleted");
         $category->delete();
     }
 
