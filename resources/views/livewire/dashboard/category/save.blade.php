@@ -5,11 +5,15 @@
 <div class="container">
 
     <x-jet-action-message on="created">
-        {{ __('Created category success') }}
+        <div class="box-action-message">
+            {{ __('Created category success') }}
+        </div>
     </x-jet-action-message>
 
     <x-jet-action-message on="updated">
-        {{ __('Updated category success') }}
+        <div class="box-action-message">
+            {{ __('Updated category success') }}
+        </div>
     </x-jet-action-message>
 
     <x-jet-form-section submit="submit">
