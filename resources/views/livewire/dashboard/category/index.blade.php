@@ -1,8 +1,6 @@
 @slot('header')
     {{ __('CRUD categorias') }}
 @endslot
-
-
 <x-card class="container">
 
     <x-jet-action-message on="deleted">
@@ -14,6 +12,8 @@
     @slot('title')
         Listado
     @endslot
+
+    <a class="btn-secondary mb-3" href="{{ route('d-category-create') }}">Crear</a>
 
     <table class="table w-full border">
         <thead class="text-left bg-gray-100 ">
@@ -33,7 +33,7 @@
                         {{ $c->title }}
                     </td>
                     <td class="p-2">
-                        <a href="{{ route('d-category-edit', $c) }}" class="mr-2">Editar</a>
+                        <x-jet-nav-link href="{{ route('d-category-edit', $c) }}" class="mr-2">Editar</x-jet-nav-link>
                         <x-jet-danger-button {{-- onclick="confirm('Seguro que deseas eliminar el registro seleccionado?') || event.stopImmediatePropagation()" --}}
                             wire:click="seletedCategoryToDelete({{ $c }})">
                             Eliminar
