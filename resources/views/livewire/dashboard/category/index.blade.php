@@ -62,7 +62,7 @@
                 {{ __('Cancel') }}
             </x-jet-secondary-button>
 
-            <x-jet-danger-button class="ml-3" wire:click="delete({{ $c }})"
+            <x-jet-danger-button class="ml-3" wire:click="delete()"
                 wire:loading.attr="disabled">
                 {{ __('Delete') }}
             </x-jet-danger-button>
