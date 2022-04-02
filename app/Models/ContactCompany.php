@@ -7,11 +7,13 @@ use Illuminate\Database\Eloquent\Model;
 
 class ContactCompany extends Model
 {
+    public $timestamps = false;
+
     use HasFactory;
 
     protected $fillable = ['name', 'identification','email','extra', 'contact_general_id','choices'];
 
     public function general(){
-        return $this->belongsTo(ContactGeneral::class);
+        return $this->belongsTo(ContactGeneral::class,'contact_general_id');
     }
 }

@@ -17,4 +17,7 @@ class ContactGeneral extends Model
     public function company(){
         return $this->hasOne(ContactCompany::class);
     }
+    public function detail(){
+        return $this->hasOne(ContactDetail::class);
+    }
 }

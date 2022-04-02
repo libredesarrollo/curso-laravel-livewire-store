@@ -26,6 +26,8 @@ class Person extends Component
 
     public function submit()
     {
+        $this->emit("stepEvent",3);
+        return;
         $this->validate();
 
         ContactPerson::create([

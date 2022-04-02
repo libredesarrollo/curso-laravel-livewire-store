@@ -13,6 +13,10 @@ class General extends Component
     public $type;
     public $message;
 
+    public $step = 1;
+
+    protected $listeners=['stepEvent'];
+
     protected $rules = [
         'subject' => 'required|min:2|max:255',
         'type' => 'required',
@@ -21,13 +25,16 @@ class General extends Component
 
     public function render()
     {
-       // dd(ContactGeneral::find(1)->person);
-        dd(ContactPerson::find(1)->general);
         return view('livewire.contact.general');
     }
 
     public function submit()
     {
+        if ($this->type == "company")
+            $this->step = 2;
+        elseif ($this->type == "person")
+            $this->step = 2.5;
+        return;
         $this->validate();
 
         ContactGeneral::create([
@@ -35,5 +42,11 @@ class General extends Component
             'type' => $this->type,
             'message' => $this->message
         ]);
+    }
+
+    //************EVENTOS */
+    public function stepEvent($step)
+    {
+        $this->step = $step;
     }
 }
