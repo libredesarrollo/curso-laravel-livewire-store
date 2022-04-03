@@ -25,7 +25,7 @@ class General extends Component
 
     public function render()
     {
-        return view('livewire.contact.general');
+        return view('livewire.contact.general')->layout('layouts.contact');
     }
 
     public function submit()
@@ -45,7 +45,7 @@ class General extends Component
     }
 
     //************EVENTOS */
-    public function stepEvent($step)
+    public function stepEvent($step=5)
     {
         $this->step = $step;
     }
