@@ -1,10 +1,7 @@
-
-
-
 <div>
 
     <div class="flex">
-        <div x-data="{ active:@entangle('step') }" class="flex mx-auto flex-col sm:flex-row">
+        <div x-data="{ active: @entangle('step') }" class="flex mx-auto flex-col sm:flex-row">
             <div class="step active" :class="{ 'active': active == 1 }">
                 STEP 1
             </div>
@@ -15,12 +12,13 @@
                 STEP 3
             </div>
         </div>
+
     </div>
 
-    <p>Laravel {{ $step }}</p>
-<br>
+
+    <br>
     @if ($step == 1)
-        <form wire:submit.prevent="submit">
+        <form wire:submit.prevent="submit" class="flex flex-col max-w-sm mx-auto">
 
             <x-jet-label>{{ __('Subject') }}</x-jet-label>
             <x-jet-input-error for="subject" />
@@ -37,8 +35,9 @@
             <x-jet-label>{{ __('Message') }}</x-jet-label>
             <x-jet-input-error for="message" />
             <textarea wire:model="message"></textarea>
-
-            <x-jet-button type="submit">Enviar</x-jet-button>
+            <div class="flex mt-5">
+                <x-jet-button type="submit">Enviar</x-jet-button>
+            </div>
         </form>
     @elseif($step == 2)
         @livewire('contact.company')

@@ -7,11 +7,15 @@ use Livewire\Component;
 
 class Detail extends Component
 {
-    public $extra;
+
+    protected $listeners = ['parentId'];
 
     protected $rules = [
         'extra' => 'required|min:2|max:500',
     ];
+
+    public $extra;
+    public $parentId;
 
     public function render()
     {
@@ -20,13 +24,27 @@ class Detail extends Component
 
     public function submit()
     {
-        $this->emit("stepEvent",4);
-        return;
+
         $this->validate();
 
-        ContactDetail::create([
-            'extra' => $this->extra,
-            'contact_general_id' => 1,
-        ]);
+        ContactDetail::updateOrCreate(
+            ['contact_general_id' => $this->parentId],
+            [
+                'extra' => $this->extra,
+                'contact_general_id' => $this->parentId,
+            ]
+        );
+
+        $this->emit("stepEvent", 4);
+    }
+
+    public function parentId($parentId)
+    {
+        $this->parentId = $parentId;
+
+        $c = ContactDetail::where('contact_general_id', $this->parentId)->first();
+        if ($c != null) {
+            $this->extra = $c->extra;
+        }
     }
 }

@@ -7,11 +7,7 @@ use Livewire\Component;
 
 class Company extends Component
 {
-    public $name;
-    public $identification;
-    public $email;
-    public $extra;
-    public $choices;
+    protected $listeners = ['parentId'];
 
     protected $rules = [
         'name' => 'required|min:2|max:255',
@@ -21,6 +17,14 @@ class Company extends Component
         'choices' => 'required'
     ];
 
+    public $name;
+    public $identification;
+    public $email;
+    public $extra;
+    public $choices;
+    public $parentId;
+
+
     public function render()
     {
 
@@ -28,19 +32,37 @@ class Company extends Component
         return view('livewire.contact.company');
     }
 
+    public function mount()
+    {
+    }
+
     public function submit()
     {
-        $this->emit("stepEvent",3);
-        return;
         $this->validate();
+        ContactCompany::updateOrCreate(
+            ['contact_general_id' => $this->parentId],
+            [
+                'name' => $this->name,
+                'identification' => $this->identification,
+                'extra' => $this->extra,
+                'email' => $this->email,
+                'choices' => $this->choices,
+                'contact_general_id' => $this->parentId,
+            ]
+        );
+        $this->emit("stepEvent", 3);
+    }
 
-        ContactCompany::create([
-            'name' => $this->name,
-            'identification' => $this->identification,
-            'extra' => $this->extra,
-            'email' => $this->email,
-            'choices' => $this->choices,
-            'contact_general_id' => 1,
-        ]);
+    public function parentId($parentId)
+    {
+        $this->parentId = $parentId;
+        $c = ContactCompany::where('contact_general_id', $this->parentId)->first();
+        if ($c != null) {
+            $this->name = $c->name;
+            $this->identification = $c->identification;
+            $this->extra = $c->extra;
+            $this->email = $c->email;
+            $this->choices = $c->choices;
+        }
     }
 }
