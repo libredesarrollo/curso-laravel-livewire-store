@@ -13,7 +13,7 @@ class General extends Component
     public $type;
     public $message;
 
-    public $step = 1;
+    public $step = 2;
 
     public $pk;
 

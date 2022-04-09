@@ -19,6 +19,6 @@ class Category extends Model
 
     public function getImageUrl()
     {
-        return URL::asset("images/".$this->image);
+        return URL::asset("images/category/".$this->image);
     }
 }

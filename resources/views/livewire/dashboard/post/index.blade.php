@@ -1,3 +1,102 @@
-<div>
-    {{-- To attain knowledge, add things every day; To attain wisdom, subtract things every day. --}}
-</div>
+@slot('header')
+    {{ __('CRUD categorias') }}
+@endslot
+<x-card class="container">
+
+    <x-jet-action-message on="deleted">
+        <div class="box-action-message">
+            {{ __('Post deleted success') }}
+        </div>
+    </x-jet-action-message>
+
+    @slot('title')
+        Listado
+    @endslot
+
+    <a class="btn-secondary mb-3" href="{{ route('d-post-create') }}">Crear</a>
+
+    <table class="table w-full border">
+        <thead class="text-left bg-gray-100 ">
+            <tr class="border-b">
+                <th class="p-2">
+                    Título
+                </th>
+                <th class="p-2">
+                    Fecha
+                </th>
+                <th class="p-2">
+                    Descripción
+                </th>
+                <th class="p-2">
+                    Posted
+                </th>
+                <th class="p-2">
+                    Típo
+                </th>
+                <th class="p-2">
+                    Categoría
+                </th>
+                <th class="p-2">
+                    Acciones
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach ($posts as $p)
+                <tr class="border-b">
+                    <td class="p-2">
+                        {{ $p->title }}
+                    </td>
+                    <td class="p-2">
+                        {{ $p->date }}
+                    </td>
+                    <td class="p-2">
+                        {{ $p->description }}
+                    </td>
+                    <td class="p-2">
+                        {{ $p->posted }}
+                    </td>
+                    <td class="p-2">
+                        {{ $p->type }}
+                    </td>
+                    <td class="p-2">
+                        {{ $p->category->title }}
+                    </td>
+                    <td class="p-2">
+                        <x-jet-nav-link href="{{ route('d-post-edit', $p) }}" class="mr-2">Editar</x-jet-nav-link>
+                        <x-jet-danger-button {{-- onclick="confirm('Seguro que deseas eliminar el registro seleccionado?') || event.stopImmediatePropagation()" --}}
+                            wire:click="seletedPostToDelete({{ $p }})">
+                            Eliminar
+                        </x-jet-danger-button>
+                    </td>
+                </tr>
+            @endforeach
+        </tbody>
+    </table>
+
+    <br>
+
+    {{ $posts->links() }}
+
+    <x-jet-confirmation-modal wire:model="confirmingDeletePost">
+        <x-slot name="title">
+            {{ __('Delete Post') }}
+        </x-slot>
+
+        <x-slot name="content">
+            {{ __('Are you sure you want to delete this post?') }}
+        </x-slot>
+
+        <x-slot name="footer">
+            <x-jet-secondary-button wire:click="$toggle('confirmingDeletePost')" wire:loading.attr="disabled">
+                {{ __('Cancel') }}
+            </x-jet-secondary-button>
+
+            <x-jet-danger-button class="ml-3" wire:click="delete()"
+                wire:loading.attr="disabled">
+                {{ __('Delete') }}
+            </x-jet-danger-button>
+        </x-slot>
+    </x-jet-confirmation-modal>
+
+</x-card>

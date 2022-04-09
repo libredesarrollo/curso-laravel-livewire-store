@@ -34,14 +34,16 @@
 
                             <x-slot name="content">
                                 <div class="w-60">
-                                    <!-- Team Management -->
+                                  
                                     <div class="block px-4 py-2 text-xs text-gray-400">
                                         {{ __('Manage CRUDs') }}
                                     </div>
-
-                                    <!-- Team Settings -->
+    
                                     <x-jet-dropdown-link href="{{ route('d-category-index') }}">
                                         {{ __('Category') }}
+                                    </x-jet-dropdown-link>
+                                    <x-jet-dropdown-link href="{{ route('d-post-index') }}">
+                                        {{ __('Post') }}
                                     </x-jet-dropdown-link>
 
                                 </div>
