@@ -13,11 +13,49 @@
         Listado
     @endslot
 
+
+
     <a class="btn-secondary mb-3" href="{{ route('d-post-create') }}">Crear</a>
+
+    <div class="grid grid-cols-2 mb-2 gap-2">
+        <x-jet-input class="w-full" type="text" wire:model="search" placeholder="Buscar por id, tìtulo o descripción"></x-jet-input>
+        <div class="grid grid-cols-2 gap-2">
+            <x-jet-input class="w-full" type="date" wire:model="from" placeholder="Desde"></x-jet-input>
+            <x-jet-input class="w-full" type="date" wire:model="to" placeholder="Hasta"></x-jet-input>
+        </div>
+    </div>
+
+    <div class="flex gap-2 mb-2">
+
+        <select class="block w-full" wire:model="posted">
+            <option value="">{{__("Posted")}}</option>
+            <option value="not">No</option>
+            <option value="yes">Si</option>
+        </select>
+
+        <select class="block w-full" wire:model="type">
+            <option value="">{{__("Type")}}</option>
+            <option value="adverd">adverd</option>
+            <option value="post">post</option>
+            <option value="course">course</option>
+            <option value="movie">movie</option>
+        </select>
+
+        <select class="block w-full" wire:model="category_id">
+            <option value="">{{__("Category")}}</option>
+            @foreach ($categories as $i => $c)
+                <option value="{{ $i }}">{{ $c }}</option>
+            @endforeach
+        </select>
+
+    </div>
 
     <table class="table w-full border">
         <thead class="text-left bg-gray-100 ">
             <tr class="border-b">
+                <th class="p-2">
+                    Id
+                </th>
                 <th class="p-2">
                     Título
                 </th>
@@ -45,13 +83,18 @@
             @foreach ($posts as $p)
                 <tr class="border-b">
                     <td class="p-2">
-                        {{ $p->title }}
+                        {{ $p->id }}
+                    </td>
+                    <td class="p-2">
+                        {{ str($p->title)->substr(0,15) }}
                     </td>
                     <td class="p-2">
                         {{ $p->date }}
                     </td>
                     <td class="p-2">
+                       <textarea class="w-48" >
                         {{ $p->description }}
+                       </textarea>
                     </td>
                     <td class="p-2">
                         {{ $p->posted }}
@@ -63,7 +106,8 @@
                         {{ $p->category->title }}
                     </td>
                     <td class="p-2">
-                        <x-jet-nav-link href="{{ route('d-post-edit', $p) }}" class="mr-2">Editar</x-jet-nav-link>
+                        <x-jet-nav-link href="{{ route('d-post-edit', $p) }}" class="mr-2">Editar
+                        </x-jet-nav-link>
                         <x-jet-danger-button {{-- onclick="confirm('Seguro que deseas eliminar el registro seleccionado?') || event.stopImmediatePropagation()" --}}
                             wire:click="seletedPostToDelete({{ $p }})">
                             Eliminar
@@ -92,8 +136,7 @@
                 {{ __('Cancel') }}
             </x-jet-secondary-button>
 
-            <x-jet-danger-button class="ml-3" wire:click="delete()"
-                wire:loading.attr="disabled">
+            <x-jet-danger-button class="ml-3" wire:click="delete()" wire:loading.attr="disabled">
                 {{ __('Delete') }}
             </x-jet-danger-button>
         </x-slot>

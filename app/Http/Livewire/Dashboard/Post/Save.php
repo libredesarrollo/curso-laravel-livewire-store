@@ -50,6 +50,7 @@ class Save extends Component
 
     public function render()
     {
+       
         $categories = Category::get();
         return view('livewire.dashboard.post.save', compact('categories'));
     }
