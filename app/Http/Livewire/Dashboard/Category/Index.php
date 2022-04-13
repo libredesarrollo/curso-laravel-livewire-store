@@ -2,7 +2,9 @@
 
 namespace App\Http\Livewire\Dashboard\Category;
 
+use App\Http\Livewire\Dashboard\OrderTrait;
 use App\Models\Category;
+
 use Livewire\Component;
 use Livewire\WithPagination;
 
@@ -10,6 +12,12 @@ class Index extends Component
 {
 
     use WithPagination;
+    use OrderTrait;
+
+    public $columns=[
+        'id' => "Id",
+        'title' => "Título",
+    ];
 
     public $confirmingDeleteCategory;
     public $categoryToDelete;
@@ -17,7 +25,7 @@ class Index extends Component
     public function render()
     {
         //$this->confirmingDeleteCategory = true;
-        $categories = Category::paginate(10);
+        $categories = Category::orderBy($this->sortColumn,$this->sortDirection)->paginate(10);
         return view('livewire.dashboard.category.index',compact('categories'));
     }
 

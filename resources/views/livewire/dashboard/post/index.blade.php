@@ -18,7 +18,8 @@
     <a class="btn-secondary mb-3" href="{{ route('d-post-create') }}">Crear</a>
 
     <div class="grid grid-cols-2 mb-2 gap-2">
-        <x-jet-input class="w-full" type="text" wire:model="search" placeholder="Buscar por id, tìtulo o descripción"></x-jet-input>
+        <x-jet-input class="w-full" type="text" wire:model="search"
+            placeholder="Buscar por id, tìtulo o descripción"></x-jet-input>
         <div class="grid grid-cols-2 gap-2">
             <x-jet-input class="w-full" type="date" wire:model="from" placeholder="Desde"></x-jet-input>
             <x-jet-input class="w-full" type="date" wire:model="to" placeholder="Hasta"></x-jet-input>
@@ -28,13 +29,13 @@
     <div class="flex gap-2 mb-2">
 
         <select class="block w-full" wire:model="posted">
-            <option value="">{{__("Posted")}}</option>
+            <option value="">{{ __('Posted') }}</option>
             <option value="not">No</option>
             <option value="yes">Si</option>
         </select>
 
         <select class="block w-full" wire:model="type">
-            <option value="">{{__("Type")}}</option>
+            <option value="">{{ __('Type') }}</option>
             <option value="adverd">adverd</option>
             <option value="post">post</option>
             <option value="course">course</option>
@@ -42,7 +43,7 @@
         </select>
 
         <select class="block w-full" wire:model="category_id">
-            <option value="">{{__("Category")}}</option>
+            <option value="">{{ __('Category') }}</option>
             @foreach ($categories as $i => $c)
                 <option value="{{ $i }}">{{ $c }}</option>
             @endforeach
@@ -53,27 +54,21 @@
     <table class="table w-full border">
         <thead class="text-left bg-gray-100 ">
             <tr class="border-b">
-                <th class="p-2">
-                    Id
-                </th>
-                <th class="p-2">
-                    Título
-                </th>
-                <th class="p-2">
-                    Fecha
-                </th>
-                <th class="p-2">
-                    Descripción
-                </th>
-                <th class="p-2">
-                    Posted
-                </th>
-                <th class="p-2">
-                    Típo
-                </th>
-                <th class="p-2">
-                    Categoría
-                </th>
+                @foreach ($columns as $key => $c)
+                    <th>
+                        <button wire:click="sort('{{ $key }}')">
+                            {{ $c }}
+                            @if ($key == $sortColumn)
+                                @if ($sortDirection == 'asc')
+                                    &uarr;
+                                @else
+                                    &darr;
+                                @endif
+                            @endif
+                            
+                        </button>
+                    </th>
+                @endforeach
                 <th class="p-2">
                     Acciones
                 </th>
@@ -86,13 +81,13 @@
                         {{ $p->id }}
                     </td>
                     <td class="p-2">
-                        {{ str($p->title)->substr(0,15) }}
+                        {{ str($p->title)->substr(0, 15) }}
                     </td>
                     <td class="p-2">
                         {{ $p->date }}
                     </td>
                     <td class="p-2">
-                       <textarea class="w-48" >
+                        <textarea class="w-48">
                         {{ $p->description }}
                        </textarea>
                     </td>
