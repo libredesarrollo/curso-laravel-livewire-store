@@ -136,5 +136,23 @@
             </x-jet-danger-button>
         </x-slot>
     </x-jet-confirmation-modal>
-
 </x-card>
+
+<script>
+    window.onload = function(){
+    
+        Livewire.hook("element.updated",(el,component)=>{
+           // console.log(component)
+        })
+        Livewire.hook("element.updating",(fromEl,toEl,component)=>{
+            //console.log(fromEl)
+        })
+        Livewire.hook("element.removed",(el,component)=>{
+            console.log(el)
+        })
+        Livewire.hook("message.sent",(message,component)=>{
+         //   console.log(message)
+          //  console.log(message.updateQueue[0].payload.method)
+        })
+    }
+</script>

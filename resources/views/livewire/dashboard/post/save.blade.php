@@ -40,6 +40,15 @@
                 <x-jet-input-error for="date" />
                 <x-jet-input class="block w-full" type="date" wire:model="date" />
             </div>
+
+            <div class="col-span-6 sm:col-span-4">
+                <div wire:ignore>
+                    <div id="ckcontent">
+                        {!! $text !!}
+                    </div>
+                </div>
+            </div>
+
             <div class="col-span-6 sm:col-span-4">
                 <x-jet-label for="">Contenido</x-jet-label>
                 <x-jet-input-error for="text" />
@@ -81,12 +90,12 @@
                 <select class="block w-full" wire:model="category_id">
                     <option value=""></option>
                     @foreach ($categories as $c)
-                     <option value="{{$c->id}}">{{$c->title}}</option>
+                        <option value="{{ $c->id }}">{{ $c->title }}</option>
                     @endforeach
                 </select>
             </div>
 
-      
+
             <div class="col-span-6 sm:col-span-4">
                 <x-jet-label for="">Imagen</x-jet-label>
                 <x-jet-input-error for="image" />
@@ -105,3 +114,22 @@
 
     </x-jet-form-section>
 </div>
+
+<script src="{{ asset('js/ckeditor/ckeditor.js') }}"></script>
+
+<script>
+
+    document.addEventListener('livewire:load', function () {
+
+        //@this.text = "texto"
+
+        var editor = ClassicEditor.create(document.querySelector("#ckcontent")).then(
+        editor => {
+            editor.model.document.on('change:data', () => {
+                console.log(editor.getData());
+                @this.text = editor.getData()
+            });
+        }
+    )
+    })
+</script>
