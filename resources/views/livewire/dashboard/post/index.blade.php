@@ -18,7 +18,7 @@
     <a class="btn-secondary mb-3" href="{{ route('d-post-create') }}">Crear</a>
 
     <div class="grid grid-cols-2 mb-2 gap-2">
-        <x-jet-input class="w-full" type="text" wire:model="search"
+        <x-jet-input class="w-full" type="text" wire:model.debounce.500ms="search"
             placeholder="Buscar por id, tìtulo o descripción"></x-jet-input>
         <div class="grid grid-cols-2 gap-2">
             <x-jet-input class="w-full" type="date" wire:model="from" placeholder="Desde"></x-jet-input>
@@ -144,10 +144,10 @@
            // console.log(component)
         })
         Livewire.hook("element.updating",(fromEl,toEl,component)=>{
-            //console.log(fromEl)
+            console.log(component)
         })
         Livewire.hook("element.removed",(el,component)=>{
-            console.log(el)
+            //console.log(el)
         })
         Livewire.hook("message.sent",(message,component)=>{
          //   console.log(message)

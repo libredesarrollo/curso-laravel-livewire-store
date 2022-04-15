@@ -13,6 +13,8 @@
         Listado
     @endslot
 
+<p>Categoría seleccionada {{ $this->category }}</p>
+
     <a class="btn-secondary mb-3" href="{{ route('d-category-create') }}">Crear</a>
 
     <table class="table w-full border">
@@ -69,7 +71,7 @@
         </x-slot>
 
         <x-slot name="content">
-            {{ __('Are you sure you want to delete this category?') }}
+            {{ __('Are you sure you want to delete '. $this->category .' this category?') }}
         </x-slot>
 
         <x-slot name="footer">

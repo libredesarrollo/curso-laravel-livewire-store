@@ -14,7 +14,7 @@ class Index extends Component
     use WithPagination;
     use OrderTrait;
 
-    public $columns=[
+    public $columns = [
         'id' => "Id",
         'title' => "Título",
     ];
@@ -22,11 +22,21 @@ class Index extends Component
     public $confirmingDeleteCategory;
     public $categoryToDelete;
 
+    public function getCategoryProperty()
+    {
+        if ($this->categoryToDelete)
+            return Category::find($this->categoryToDelete->id);
+        return "Sin categoría seleccionada";
+    }
+
+
+
     public function render()
     {
+        //dd($this->category);
         //$this->confirmingDeleteCategory = true;
-        $categories = Category::orderBy($this->sortColumn,$this->sortDirection)->paginate(10);
-        return view('livewire.dashboard.category.index',compact('categories'));
+        $categories = Category::orderBy($this->sortColumn, $this->sortDirection)->paginate(10);
+        return view('livewire.dashboard.category.index', compact('categories'));
     }
 
     public function seletedCategoryToDelete(Category $category)
@@ -41,5 +51,4 @@ class Index extends Component
         $this->confirmingDeleteCategory = false;
         $this->categoryToDelete->delete();
     }
-
 }
