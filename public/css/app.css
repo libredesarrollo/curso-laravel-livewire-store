@@ -1087,12 +1087,6 @@ select {
 .block {
   display: block;
 }
-.inline-block {
-  display: inline-block;
-}
-.inline {
-  display: inline;
-}
 .flex {
   display: flex;
 }
@@ -1183,21 +1177,8 @@ select {
 .w-40 {
   width: 10rem;
 }
-.w-72 {
-  width: 18rem;
-}
 .min-w-0 {
   min-width: 0px;
-}
-.min-w-min {
-  min-width: -webkit-min-content;
-  min-width: -moz-min-content;
-  min-width: min-content;
-}
-.min-w-max {
-  min-width: -webkit-max-content;
-  min-width: -moz-max-content;
-  min-width: max-content;
 }
 .max-w-screen-xl {
   max-width: 1280px;

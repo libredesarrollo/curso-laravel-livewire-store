@@ -53,7 +53,7 @@
                 <x-jet-label for="">Contenido</x-jet-label>
                 <x-jet-input-error for="text" />
 
-                <textarea class="block w-full" wire:model="text"></textarea>
+                <textarea  class="block w-full" wire:model="text"></textarea>
             </div>
             <div class="col-span-6 sm:col-span-4">
                 <x-jet-label for="">Descripción</x-jet-label>
@@ -120,16 +120,27 @@
 <script>
 
     document.addEventListener('livewire:load', function () {
-
+        
         //@this.text = "texto"
-
+        // *** comunicacion CKEDITOR a propiedad
+        var ckeditor = null
         var editor = ClassicEditor.create(document.querySelector("#ckcontent")).then(
         editor => {
-            editor.model.document.on('change:data', () => {
-                console.log(editor.getData());
+            ckeditor = editor
+            editor.model.document.on('change:data', () => { 
                 @this.text = editor.getData()
             });
         }
     )
+
+        // *** comunicacion propiedad a CKEDITOR
+        Livewire.hook('message.processed',(message, component)=>{
+
+            if(message.updateQueue[0].name == "text")
+                ckeditor.setData(@this.text)
+        })
+        
     })
+
+    
 </script>
