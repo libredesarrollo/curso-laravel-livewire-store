@@ -13,7 +13,7 @@ class General extends Component
     public $type;
     public $message;
 
-    public $step = 2;
+    public $step = 1;
 
     public $pk;
 
@@ -24,6 +24,12 @@ class General extends Component
         'type' => 'required',
         'message' => 'required|min:2'
     ];
+
+
+    public function mount($subject = "")
+    {
+        $this->subject = $subject;
+    }
 
     public function render()
     {

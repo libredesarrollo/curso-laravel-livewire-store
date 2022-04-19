@@ -40,7 +40,11 @@
 
                 <p class="mx-4">{{ $p->description }}</p>
 
-                <hr class="my-24">
+                <div class="flex flex-col items-center mt-7">
+                    <a class="btn-primary" href="{{ route('web-show', $p->slug) }}">Leer el post!</a>
+                </div>
+                
+                <hr class="my-16">
             @endforeach
         </div>
     </div>

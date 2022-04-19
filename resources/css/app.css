@@ -22,3 +22,7 @@
 .active{
     @apply border-indigo-500 rounded-t bg-gray-100
 }
+
+.btn-primary {
+    @apply font-bold py-3 px-4 rounded bg-purple-600 hover:bg-purple-900 text-white tracking-wide hover:shadow-xl inline-block uppercase hover:-translate-y-1 transition duration-150
+}
