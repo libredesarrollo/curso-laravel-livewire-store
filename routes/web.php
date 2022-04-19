@@ -45,3 +45,7 @@ Route::group(['prefix' => 'blog'], function () {
     Route::get('/', App\Http\Livewire\Blog\Index::class)->name("web-index");
     Route::get('/{slug}', App\Http\Livewire\Blog\Show::class)->name("web-show");
 });
+
+Route::group(['prefix' => 'shop'], function () {
+    Route::get('/cart-list', App\Http\Livewire\Shop\Cart::class)->name("shop-cart-list");
+});
