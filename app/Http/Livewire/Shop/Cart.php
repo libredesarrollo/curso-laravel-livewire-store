@@ -2,7 +2,6 @@
 
 namespace App\Http\Livewire\Shop;
 
-use App\Models\Post;
 use Livewire\Component;
 use Symfony\Component\HttpFoundation\Session\Session;
 
@@ -15,11 +14,6 @@ class Cart extends Component
     public $post;
     public $cart;
 
-    // public function test()
-    // {
-    //     $this->emit("addItemToCart",Post::find(4));
-    // }
-
     public function mount($post, $type = "list")
     {
         $this->post = $post;
@@ -27,11 +21,6 @@ class Cart extends Component
 
         $session = new Session();
         $this->cart = $session->get('cart',[]);
-
-        foreach ($this->cart as $key => $c) {
-            //dd($c[0]['title']);
-        }
-        //dd($this->cart);
     }
 
     public function render()

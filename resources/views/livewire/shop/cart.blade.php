@@ -1,18 +1,7 @@
 <div>
-
-LISTADO
-
-
-    @livewire('shop.cart-item')
-
-    <button wire:click="test">Test</button>
-
-     @foreach ($cart as $c)
-        <div class="box mb-3">
-            <p>
-                <input class="w-20" type="number">
-                {{ $c[0]['title'] }}
-            </p>
-        </div>
+    
+    <h3 class="text-center text-3xl mb-4">Carrito de compras</h3>
+    @foreach ($cart as $c)
+        @livewire('shop.cart-item', ['postId' => $c[0]['id']])
     @endforeach
 </div>
