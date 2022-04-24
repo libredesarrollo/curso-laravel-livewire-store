@@ -8,11 +8,20 @@ use Symfony\Component\HttpFoundation\Session\Session;
 class Cart extends Component
 {
 
+    protected $listeners = ['itemAdd' => 'itemCRUD'];
+
     // list , add
     public $type = "list";
 
     public $post;
     public $cart;
+
+    public $total = "0";
+
+    public function itemCRUD()
+    {
+        $this->total = 40;
+    }
 
     public function mount($post, $type = "list")
     {

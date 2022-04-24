@@ -41,6 +41,7 @@ class CartItem extends Component
                 unset($this->item);
                 $session->set('cart', $cart);
                 $this->saveDB($cart);
+                $this->emit("itemDelete");
             }
             return;
         }
@@ -48,8 +49,10 @@ class CartItem extends Component
         // agregar
         if (Arr::exists($cart, $post['id'])) {
             $cart[$post['id']][1] = $count;
+            $this->emit("itemChange",$post);
         } else {
             $cart[$post["id"]] = [$post, $count];
+            $this->emit("itemAdd",$post);
         }
 
         $this->item = $cart[$post['id']];
@@ -81,10 +84,11 @@ class CartItem extends Component
                     ]
                 );
             }
+             // *** borrar
+            ShoppingCart::whereNot('control', $control)->where('user_id',auth()->id())->delete();
         }
 
-        // *** borrar
-        ShoppingCart::whereNot('control', $control)->where('user_id',auth()->id())->delete();
+       
     }
 
     public function update()
