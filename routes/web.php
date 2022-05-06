@@ -49,3 +49,7 @@ Route::group(['prefix' => 'blog'], function () {
 Route::group(['prefix' => 'shop'], function () {
     Route::get('/cart-list', App\Http\Livewire\Shop\Cart::class)->name("shop-cart-list");
 });
+
+Route::group(['prefix' => 'todo', 'middleware' => ['auth:sanctum']], function () {
+    Route::get('/', App\Http\Livewire\Todos\Todo::class)->name("todo-list");
+});

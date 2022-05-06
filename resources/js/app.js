@@ -1,8 +1,16 @@
 require('./bootstrap');
 
 import Alpine from 'alpinejs';
+import persist from '@alpinejs/persist'
+import Sortable from 'sortablejs';
+ 
+Alpine.plugin(persist)
+
 window.Alpine = Alpine;
+window.Sortable = Sortable;
+
 Alpine.start();
+
 
 import toast from 'toast-me';
 window.toast = toast
