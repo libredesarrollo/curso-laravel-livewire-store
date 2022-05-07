@@ -32,10 +32,12 @@
                         </div>
                     </form>
 
+                    @foreach ($todos as $t)
+                    @endforeach
 
                     <ul x-ref="items" class="list-group my-3">
                         <template x-for="t in filterTodo()">
-                            <li class="list-group-item">
+                            <li class="list-group-item" :id="t.id" :count="t.count">
                                 <input type="checkbox" x-model="t.completed">
                                 <span @click="t.editMode=true" x-show="!t.editMode" x-text="t.name"></span>
                                 <input @keyup.enter="t.editMode=false" type="text" x-show="t.editMode" x-model="t.name">
@@ -56,9 +58,25 @@
                 search: "",
                 task: '',
                 todos: Alpine.$persist(@entangle('todos')),
+                //todos: @entangle('todos'),
                 //todos: ,
                 ordenar() {
-                    Sortable.create(this.$refs.items)
+                    Sortable.create(this.$refs.items, {
+                        onEnd: (event) => {
+                            var todosAux = []
+
+                            document.querySelectorAll(".list-group li").forEach(todoHTML => {
+                                this.todos.forEach(todo => {
+                                    if (todo.id == todoHTML.id)
+                                        todosAux.push(todo)
+                                })
+                            });
+                            console.log(todosAux)
+                            this.todos = todosAux
+                            Livewire.emit("setOrden")
+
+                        }
+                    })
                 },
                 completed(todo) {
                     return todo.completed
