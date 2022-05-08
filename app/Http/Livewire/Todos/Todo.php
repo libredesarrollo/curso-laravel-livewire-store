@@ -8,16 +8,16 @@ use Livewire\Component;
 class Todo extends Component
 {
 
-    protected $listeners = ['setOrden'];
+    protected $listeners = ['setOrden', 'setOrdenById', 'deleteById'];
 
     public $task;
-    public $todos;
+    //public $todos; // ordenacion 1 y 2
 
 
     public function render()
     {
-        $this->todos = ModelsTodo::where('user_id', auth()->id())->orderBy('count')->get()->toArray();
-        return view('livewire.todos.todo');
+        $todos = ModelsTodo::where('user_id', auth()->id())->orderBy('count')->get()->toArray();
+        return view('livewire.todos.todo', compact("todos"));
     }
 
     public function save()
@@ -31,8 +31,19 @@ class Todo extends Component
 
     public function setOrden()
     {
-        foreach($this->todos as $count => $t){
+        foreach ($this->todos as $count => $t) {
             ModelsTodo::where("id", $t['id'])->update(['count' => $count]);
         }
+    }
+    public function setOrdenById($ids)
+    {
+        foreach ($ids as $count => $id) {
+            ModelsTodo::where("id", $id)->where("count", "!=", $count)->update(['count' => $count]);
+        }
+    }
+    public function deleteById($id)
+    {
+       
+        ModelsTodo::where("id", $id)->where('user_id', auth()->id())->delete();
     }
 }

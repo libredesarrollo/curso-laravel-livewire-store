@@ -57,24 +57,40 @@
 
                 search: "",
                 task: '',
-                todos: Alpine.$persist(@entangle('todos')),
-                //todos: @entangle('todos'),
-                //todos: ,
+                //todos: Alpine.$persist(@entangle('todos')),
+                //todos: @entangle('todos'), // ordenacion 1 y 2
+                todos: @json($todos), // ordenacion 3
                 ordenar() {
                     Sortable.create(this.$refs.items, {
                         onEnd: (event) => {
-                            var todosAux = []
 
+                            // *** ordenacion 1 ineficiente
+                            // var todosAux = []
+                            // document.querySelectorAll(".list-group li").forEach(todoHTML => {
+                            //     this.todos.forEach(todo => {
+                            //         if (todo.id == todoHTML.id)
+                            //             todosAux.push(todo)
+                            //     })
+                            // });
+                            // console.log(todosAux)
+                            // this.todos = todosAux
+                            // Livewire.emit("setOrden")
+                            // *** ordenacion 1 ineficiente
+
+                            // *** ordenacion 2
+                            // var t = this.todos[event.oldIndex]
+                            // this.todos.splice(event.oldIndex, 1)
+                            // this.todos.splice(event.newIndex, 0, t)
+                            // Livewire.emit("setOrden")
+                            // *** ordenacion 2
+
+                            // *** ordenacion 3 por PKs
+                            var ids = []
                             document.querySelectorAll(".list-group li").forEach(todoHTML => {
-                                this.todos.forEach(todo => {
-                                    if (todo.id == todoHTML.id)
-                                        todosAux.push(todo)
-                                })
+                                ids.push(todoHTML.id)
                             });
-                            console.log(todosAux)
-                            this.todos = todosAux
-                            Livewire.emit("setOrden")
-
+                            Livewire.emit("setOrdenById", ids)
+                            // *** ordenacion 3 por PKs
                         }
                     })
                 },
@@ -93,6 +109,7 @@
                 },
                 remove(todo) {
                     this.todos = this.todos.filter((t) => t != todo)
+                    Livewire.emit("deleteById", todo.id)
                 },
                 save() {
                     this.todos.push({
