@@ -8,16 +8,16 @@ use Livewire\Component;
 class Todo extends Component
 {
 
-    protected $listeners = ['setOrden', 'setOrdenById', 'deleteById'];
+    protected $listeners = ['setOrden', 'setOrdenById', 'delete', 'update', 'status'];
 
     public $task;
-    //public $todos; // ordenacion 1 y 2
+    public $todos; // ordenacion 1 y 2
 
 
     public function render()
     {
-        $todos = ModelsTodo::where('user_id', auth()->id())->orderBy('count')->get()->toArray();
-        return view('livewire.todos.todo', compact("todos"));
+        $this->todos = ModelsTodo::where('user_id', auth()->id())->orderBy('count')->get()->toArray();
+        return view('livewire.todos.todo');
     }
 
     public function save()
@@ -41,9 +41,18 @@ class Todo extends Component
             ModelsTodo::where("id", $id)->where("count", "!=", $count)->update(['count' => $count]);
         }
     }
-    public function deleteById($id)
+    public function delete($id = null)
     {
-       
-        ModelsTodo::where("id", $id)->where('user_id', auth()->id())->delete();
+        if ($id != null)
+            return ModelsTodo::where("id", $id)->where('user_id', auth()->id())->delete();
+        ModelsTodo::where('user_id', auth()->id())->delete();
+    }
+    public function update($todo)
+    {
+        ModelsTodo::where("id", $todo['id'])->where('user_id', auth()->id())->update(['name' => $todo['name']]);
+    }
+    public function status($id, $status)
+    {
+        ModelsTodo::where("id", $id)->where('user_id', auth()->id())->update(['status' => $status]);
     }
 }

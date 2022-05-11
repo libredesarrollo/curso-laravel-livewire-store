@@ -9,5 +9,5 @@ class Todo extends Model
 {
     use HasFactory;
 
-    public $fillable = ['user_id', 'name', 'count'];
+    public $fillable = ['user_id', 'name', 'count','status'];
 }

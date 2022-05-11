@@ -38,14 +38,15 @@
                     <ul x-ref="items" class="list-group my-3">
                         <template x-for="t in filterTodo()">
                             <li class="list-group-item" :id="t.id" :count="t.count">
-                                <input type="checkbox" x-model="t.completed">
+                                <input @change="status(t)" type="checkbox" x-model="t.status" :checked="t.status == 1">
                                 <span @click="t.editMode=true" x-show="!t.editMode" x-text="t.name"></span>
-                                <input @keyup.enter="t.editMode=false" type="text" x-show="t.editMode" x-model="t.name">
+                                <input @keyup.enter="t.editMode=false; $wire.emit('update',t)" type="text"
+                                    x-show="t.editMode" x-model="t.name">
                                 <button class="btn btn-sm float-end btn-close" @click="remove(t)"></button>
                             </li>
                         </template>
                     </ul>
-                    <button class="btn btn-danger" @click="todos = []">Borrar todos</button>
+                    <button class="btn btn-danger" @click="todos = []; $wire.emit('delete')">Borrar to do</button>
                 </div>
             </div>
         </div>
@@ -58,8 +59,8 @@
                 search: "",
                 task: '',
                 //todos: Alpine.$persist(@entangle('todos')),
-                //todos: @entangle('todos'), // ordenacion 1 y 2
-                todos: @json($todos), // ordenacion 3
+                todos: @entangle('todos'), // ordenacion 1 y 2
+                //todos: @json($todos), // ordenacion 3
                 ordenar() {
                     Sortable.create(this.$refs.items, {
                         onEnd: (event) => {
@@ -89,7 +90,11 @@
                             document.querySelectorAll(".list-group li").forEach(todoHTML => {
                                 ids.push(todoHTML.id)
                             });
-                            Livewire.emit("setOrdenById", ids)
+
+                            axios.post('/todo/re-orden', {
+                                ids
+                            })
+                            //Livewire.emit("setOrdenById", ids)
                             // *** ordenacion 3 por PKs
                         }
                     })
@@ -109,7 +114,10 @@
                 },
                 remove(todo) {
                     this.todos = this.todos.filter((t) => t != todo)
-                    Livewire.emit("deleteById", todo.id)
+                    Livewire.emit("delete", todo.id)
+                },
+                status(todo) {
+                    Livewire.emit("status", todo.id, todo.status)
                 },
                 save() {
                     this.todos.push({

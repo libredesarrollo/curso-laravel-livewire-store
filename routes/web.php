@@ -52,4 +52,5 @@ Route::group(['prefix' => 'shop'], function () {
 
 Route::group(['prefix' => 'todo', 'middleware' => ['auth:sanctum']], function () {
     Route::get('/', App\Http\Livewire\Todos\Todo::class)->name("todo-list");
+    Route::post('/re-orden', [App\Http\Controllers\Todo\TodoController::class, 'reOrden'])->name("re-orden");
 });
