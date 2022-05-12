@@ -1,57 +1,42 @@
 <div>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <div x-data="data()" x-init="ordenar()">
+        <x-card class="container mt-5">
 
-    <div class="container mt-5" style="max-width: 500px;">
+            @slot('title')
+                Total tareas <span x-text="totalTareas"></span>
+            @endslot
 
-        <div class="card">
-            <div x-data="data()" x-init="ordenar()">
-                <div class="card-header">
-                    <h4>Total tareas <span x-text="totalTareas"></span></h4>
-                </div>
-                <div class="card-body">
-                    <div class="row g-2">
-                        <div class="col-auto">
-                            <label class="form-control-plaintext">Buscar </label>
-                        </div>
-                        <div class="col-auto">
-                            <input type="text" class="form-control" x-model="search">
-                        </div>
-                    </div>
-                    <form wire:submit.prevent="save()" class="row g-3 mt-2">
-                        <div class="col-auto">
-
-                            <label class="form-control-plaintext">
-                                Crear
-                            </label>
-                        </div>
-                        <div class="col-auto">
-                            <input class="form-control" type="text" wire:model="task">
-                        </div>
-                        <div class="col-auto">
-                            <button type="submit" class="btn btn-success">Agregar</button>
-                        </div>
-                    </form>
-
-                    @foreach ($todos as $t)
-                    @endforeach
-
-                    <ul x-ref="items" class="list-group my-3">
-                        <template x-for="t in filterTodo()">
-                            <li class="list-group-item" :id="t.id" :count="t.count">
-                                <input @change="status(t)" type="checkbox" x-model="t.status" :checked="t.status == 1">
-                                <span @click="t.editMode=true" x-show="!t.editMode" x-text="t.name"></span>
-                                <input @keyup.enter="t.editMode=false; $wire.emit('update',t)" type="text"
-                                    x-show="t.editMode" x-model="t.name">
-                                <button class="btn btn-sm float-end btn-close" @click="remove(t)"></button>
-                            </li>
-                        </template>
-                    </ul>
-                    <button class="btn btn-danger" @click="todos = []; $wire.emit('delete')">Borrar to do</button>
-                </div>
+            <label>Buscar </label>
+            <x-jet-input type="text" x-model="search" />
+            <form wire:submit.prevent="save()" class="flex gap-2 mt-2">
+                <label class="mt-2">
+                    Crear
+                </label>
+                <x-jet-input type="text" wire:model="task" />
+                <x-jet-button type="submit">Agregar</x-jet-button>
+            </form>
+            <ul x-ref="items" class="my-3">
+                <template x-for="t in filterTodo()">
+                    <li class="border py-3 px-4 mt-2" :id="t.id" :count="t.count">
+                        <input @change="status(t)" type="checkbox" x-model="t.status" :checked="t.status == 1">
+                        <span @click="t.editMode=true" x-show="!t.editMode" x-text="t.name"></span>
+                        <input @keyup.enter="t.editMode=false; $wire.emit('update',t)" type="text" x-show="t.editMode"
+                            x-model="t.name">
+                        <button class="float-right" @click="remove(t)">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none"
+                                viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                <path stroke-linecap="round" stroke-linejoin="round"
+                                    d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                            </svg>
+                        </button>
+                    </li>
+                </template>
+            </ul>
+            <div class="flex flex-row-reverse">
+                <x-jet-danger-button @click="todos = []; $wire.emit('delete')">Borrar to do</x-jet-danger-button>
             </div>
-        </div>
+        </x-card>
     </div>
-
     <script>
         function data() {
             return {

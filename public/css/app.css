@@ -1010,6 +1010,9 @@ select {
 .col-auto {
   grid-column: auto;
 }
+.float-right {
+  float: right;
+}
 .m-5 {
   margin: 1.25rem;
 }
@@ -1294,6 +1297,9 @@ select {
 }
 .flex-row {
   flex-direction: row;
+}
+.flex-row-reverse {
+  flex-direction: row-reverse;
 }
 .flex-col {
   flex-direction: column;
